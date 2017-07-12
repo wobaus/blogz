@@ -50,9 +50,15 @@ def newpost():
         new_posting = Blog(title, body)
         db.session.add(new_posting)
         db.session.commit()
+        
+        if not title:
+            flash ("Please type title")
+        if not body:
+            flash ("Please type blog")
+            
         return redirect('/blog')
 
-    return render_template('/newpost.html',page_title="Add a blog Entry" )
+    return render_template('/newpost.html',page_title="Add a blog Entry")
 
 
 
