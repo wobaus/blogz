@@ -2,14 +2,22 @@
 
 {% block content %}
 
-<ul>
-{% for new_posting in new_postings %}
+        {% if postings|length == 0 %}
+        <p>No New postings yet</p>
+        {% else %}
 
-    <h2>{{title}}</h2>
-    <p>{{body}}</p>
-</ul>
-</hr>
-{% endfor %}
+       
+              {% for new_posting in postings %}
+             
+             <li><h2>{{new_posting.title}}</h2>
+                 <p>{{new_posting.body}}</p>                
+             </li>
+             <hr/>
+              {% endfor %}
+          
+
+
+        {% endif %}
 
 {% endblock %}
 
