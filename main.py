@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, flash
+from flask import Flask, request, render_template, redirect, flash, url_for
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -22,28 +22,26 @@ class Blog(db.Model):
 
 @app.route('/blog')
 def blog():
-    
-    title = ""
-    body = ""
-    new_posting = ""
-    postings = ""
+
+    if not request.args:
+
+        title = request.form.get("title")
+        body = request.form.get("body")
+
+        new_posting = Blog(title, body)
+        postings = Blog.query.all()
 
 
-    title = request.form.get("title")
-    body = request.form.get("body")
-    #blog_id = request.form.get("blog-id")
-
-
-    new_posting = Blog(title, body)
-    postings = Blog.query.all()
-    #blog_link = Blog.query.get(blog_id)
+        return render_template('blog.html',page_title="Build a Blog", title=title, body=body, new_posting=new_posting, postings=postings)
   
-    #blog_id = int(request.form.get('blog-id'))
-    #blog_query_id = Blog.query.get(blog_id)
+    else: 
+        posting_id = request.args.get('id') 
+        current_page = Blog.query.filter_by(id=posting_id).first()
+        return render_template('posting_page.html',current_page=current_page)
 
-
-    return render_template('blog.html',page_title="Build a Blog", title=title, body=body, new_posting=new_posting, postings=postings)
+#elseif : 
   
+
 
 @app.route('/newpost', methods=['POST','GET'])
 def newpost():
@@ -57,8 +55,9 @@ def newpost():
             new_posting = Blog(title, body)
             db.session.add(new_posting)
             db.session.commit()
-            return render_template('/posting_page.html',page_title=title, posting_body=body)
-        
+
+            return render_template('posting_page.html', current_page=new_posting)
+
         if not title:
                 flash ('Please type title','error')
         if not body:
@@ -75,7 +74,7 @@ def posting_page():
     body = request.form.get("body")
     blog_id = request.form.get("id")
 
-    if id == 
+
     current_posting = Blog.query.get(posting_id)
     return render_template('/blog.html', page_title=title, page_body=body)
 
@@ -86,7 +85,7 @@ def posting_page():
 
 @app.route('/')
 def index():
-    return redirect('/blog')
+    return redirect(url_for('blog'))
 
 
 
