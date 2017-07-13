@@ -16,6 +16,7 @@ class Blog(db.Model):
     body = db.Column(db.String(300))
 
     def __init__(self, title, body):
+   
         self.title = title
         self.body = body
 
@@ -28,41 +29,64 @@ def blog():
     postings = ""
 
 
-    #if request.method == 'POST':
-    #title = request.form['title']
-    #body = request.form['body']
     title = request.form.get("title")
     body = request.form.get("body")
+    #blog_id = request.form.get("blog-id")
+
+
     new_posting = Blog(title, body)
-
     postings = Blog.query.all()
+    #blog_link = Blog.query.get(blog_id)
+  
+    #blog_id = int(request.form.get('blog-id'))
+    #blog_query_id = Blog.query.get(blog_id)
 
-    return render_template('blog.html',page_title="Build a Blog", title=title, body=body, new_posting=new_posting, postings=postings )
+
+    return render_template('blog.html',page_title="Build a Blog", title=title, body=body, new_posting=new_posting, postings=postings)
   
 
-
-
-
-@app.route('/newpost', methods=['POST', 'GET'])
+@app.route('/newpost', methods=['POST','GET'])
 def newpost():
 
     if request.method == 'POST':
         title = request.form['title']
         body = request.form['body']
+
     
         if title and body:
             new_posting = Blog(title, body)
             db.session.add(new_posting)
             db.session.commit()
-            return redirect('/blog')
+            return render_template('/posting_page.html',page_title=title, posting_body=body)
+        
         if not title:
-            flash ("Please type title",'error')
+                flash ('Please type title','error')
         if not body:
-            flash ("Please type blog")
-                
-        #return redirect('/blog')
-
+                flash ('Please type blog','body_error')
+                    
     return render_template('/newpost.html',page_title="Add a blog Entry")
+
+
+
+
+@app.route('/posting_page')
+def posting_page():
+    title = request.form.get("title")
+    body = request.form.get("body")
+    blog_id = request.form.get("id")
+
+    if id == 
+    current_posting = Blog.query.get(posting_id)
+    return render_template('/blog.html', page_title=title, page_body=body)
+
+    #return render_template('/posting_page.html', page_title=title,posting_body=body )
+
+
+
+
+@app.route('/')
+def index():
+    return redirect('/blog')
 
 
 
