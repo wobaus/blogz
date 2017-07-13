@@ -13,9 +13,9 @@
     <p><input type="submit" value="Add Entry"></p>
 
     {% with messages = get_flashed_messages(with_categories=True) %}
-    {% for category, messages in messages %}
-    <p class="{category}}">{{messages}}</p>
-    {% endfor %}
+        {% for category, messages in messages %}
+        <p class="{{category}}">{{messages}}</p>
+        {% endfor %}
     {% endwith %}
 
     

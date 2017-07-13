@@ -39,7 +39,7 @@ def blog():
         current_page = Blog.query.filter_by(id=posting_id).first()
         return render_template('posting_page.html',current_page=current_page)
 
-#elseif : 
+ 
   
 
 
