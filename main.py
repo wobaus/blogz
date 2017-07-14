@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template, redirect, flash, url_for
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -14,6 +15,8 @@ class Blog(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(120))
     body = db.Column(db.String(300))
+    #created_date = db.Column(db.DateTime) 
+                 
 
     def __init__(self, title, body):
    
@@ -30,7 +33,7 @@ def blog():
 
         new_posting = Blog(title, body)
         postings = Blog.query.all()
-
+        #time = Blog.query.get(created_date)
 
         return render_template('blog.html',page_title="Build a Blog", title=title, body=body, new_posting=new_posting, postings=postings)
   
