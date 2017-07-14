@@ -9,7 +9,7 @@
        
               {% for new_posting in postings %}
              
-             <li><a href="{{ url_for('blog', id=new_posting.id) }}"><h2>{{new_posting.title}}</h2></a>
+             <li><a href="/blog?id={{new_posting.id}}"><h2>{{new_posting.title}}</h2></a>
                  <p>{{new_posting.body}}</p>                
              </li>
              <hr/>
