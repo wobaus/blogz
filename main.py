@@ -119,7 +119,7 @@ def newpost():
     if request.method == 'POST':
         title = request.form['title']
         body = request.form['body']
-        user = session['username']
+        user = User.query.filter_by(username=session['username']).first()
     
         if title and body:
             new_posting = Blog(title, body,user)
