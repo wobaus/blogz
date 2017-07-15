@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+        {% if postings|length == 0 %}
+        <p>No New postings yet</p>
+        {% else %}
+
+       
+              {% for new_posting in postings %}
+             
+             <li><a href="/blog?id={{new_posting.id}}"><h2>{{new_posting.title}}</h2></a>
+                 <p>{{new_posting.body}}</p>   
+                 <p>written by {{new_posting.username}}</p>  
+       
+             </li>
+             <hr/>
+              {% endfor %}
+          
+              
+
+
+        {% endif %}
+
+{% endblock %}
+
+
