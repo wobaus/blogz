@@ -1,3 +1,5 @@
+#Check : test add & commit database
+
 from flask import Flask, request, render_template, redirect, flash, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -35,7 +37,7 @@ class User(db.Model):
         self.username = username
         self.password = password
 
-@app.before_request
+#@app.before_request
 def require_login():
     allowed_routes = ['login', 'signup']
     if request.endpoint not in allowed_routes and 'email' not in session:
@@ -49,7 +51,7 @@ def login():
     user = ""
 
     if request.method == 'POST':
-        email = request.form['username']
+        username = request.form['username']
         password = request.form['password']
         user = User.query.filter_by(username=username).first()
 
@@ -57,10 +59,11 @@ def login():
             session['username'] = username
             return redirect('/newpost')
         else:
-            flash ('User password incorrect, or user does not exist')
+            return '<h1> Incorrect username or password </h1>'
+            #flash ('User password incorrect, or user does not exist')
             #TODO specify each error message
             
-    return render_template('login.html', username=username, password=password, page_title="Log In!")
+    return render_template('login.html', page_title="Log In!")
 
 @app.route('/signup', methods=['POST', 'GET'])
 def signup():
@@ -68,7 +71,7 @@ def signup():
     if request.method =='POST':
         username = request.form['username']
         password = request.form['password']
-        verify = request.form['verify']
+        verifypassword = request.form['verifypassword']
 
         # TODO - validate user's data
 
@@ -116,18 +119,18 @@ def newpost():
     if request.method == 'POST':
         title = request.form['title']
         body = request.form['body']
-        
+        user = session['username']
     
         if title and body:
-            new_posting = Blog(title, body, session['username'])
+            new_posting = Blog(title, body,user)
             db.session.add(new_posting)
             db.session.commit()
 
             return render_template('SingleUser.html', current_page=new_posting)
 
         else:
-           flash ('Please POST!')
-   
+           #flash ('Please POST!')
+            return '<h1> Please POST! </h1>'
                     
     return render_template('/newpost.html',page_title="Add a blog Entry")
 
