@@ -2,6 +2,7 @@
 
 {% block content %}
 
+
         {% if postings|length == 0 %}
         <p>No New postings yet</p>
         {% else %}
@@ -11,7 +12,8 @@
              
              <li><a href="/blog?id={{new_posting.id}}"><h2>{{new_posting.title}}</h2></a>
                  <p>{{new_posting.body}}</p>     
-                 <p>{{new_posting.time}}</p>           
+                 <p>Blog class's owner_id ---{{new_posting.owner_id}}</p>   
+                 <p>{{current_owner.username}}</p>           
              </li>
              <hr/>
               {% endfor %}

@@ -46,9 +46,6 @@ def require_login():
         
 @app.route('/login', methods = ['POST', 'GET'])
 def login():
-    username = ""
-    password = ""
-    user = ""
 
     if request.method == 'POST':
         username = request.form['username']
@@ -93,24 +90,35 @@ def signup():
 
 @app.route('/blog')
 def blog():
+     
 
     if not request.args:
+        
+        title = request.args.get("title")
+        body = request.args.get("body")
+        
+        
+        owner = User.query.filter_by(username=username).first()
 
-        title = request.form.get("title")
-        body = request.form.get("body")
-        username = session['username']
-        new_posting = Blog(title, body, username)
+        new_posting = Blog(title,body,owner)
+        
+        current_owner = User.query.filter_by(id=new_posting.owner_id).first()
+        
         postings = Blog.query.all()
 
-        return render_template('blog.html',page_title="Build a Blog", title=title, body=body, new_posting=new_posting, postings=postings)
+
+        # TODO: need to get username from User class that matches Blog's owner_id
+
+        return render_template('blog.html',page_title="All Postings",new_posting=new_posting, postings=postings, current_owner=current_owner)
   
-    else: 
+    else:
         posting_id = request.args.get('id') 
         current_page = Blog.query.filter_by(id=posting_id).first()
-        return render_template('posting_page.html',current_page=current_page)
+        return render_template('singleuser.html',current_page=current_page)
+    
 
- 
-  
+    return render_template('singleuser.html',current_page=current_page,new_posting=new_posting, postings=postings)
+    
 
 
 @app.route('/newpost', methods=['POST','GET'])
@@ -119,14 +127,18 @@ def newpost():
     if request.method == 'POST':
         title = request.form['title']
         body = request.form['body']
-        user = User.query.filter_by(username=session['username']).first()
-    
+
         if title and body:
-            new_posting = Blog(title, body,user)
+            
+            auther = User.query.filter_by(username=session['username']).first()
+            
+            new_posting = Blog(title, body, auther)
             db.session.add(new_posting)
             db.session.commit()
-
-            return render_template('SingleUser.html', current_page=new_posting)
+            
+            postings = Blog.query.all()
+            
+            return render_template('/singleuser.html', current_page=new_posting)
 
         else:
            #flash ('Please POST!')
@@ -137,24 +149,13 @@ def newpost():
 
 
 
-@app.route('/posting_page')
-def posting_page():
-    title = request.form.get("title")
-    body = request.form.get("body")
-    blog_id = request.form.get("id")
-
-
-    current_posting = Blog.query.get(posting_id)
-    return render_template('/blog.html', page_title=title, page_body=body)
-
-    #return render_template('/posting_page.html', page_title=title,posting_body=body )
-
-
-
-
 @app.route('/')
 def index():
-    return redirect(url_for('blog'))
+    #getting all user and displays as ul
+
+    all_user = User.query.all()
+
+    return render_template('index.html', page_title="All users", all_user=all_user )
 
 @app.route('/logout')
 def logout():
