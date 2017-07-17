@@ -2,30 +2,31 @@
 
 {% block content %}
 
+{% with messages = get_flashed_messages(with_categories=True) %}
+                                            
+    {% for category, messages  in messages %}
+        <p>{{messages}}</p>
+    {% endfor %}
+{% endwith %}
+
 
         <form action="/signup" method="POST" >
             <table>
                 <tr>
                     <td><label for="username">User name</lable></td>
                     <td><input id="username" type="text" name="username" value="{{email}}" /></td>
-                    {% if error_username %}
-                    <td class="error">{{ error_username }}</td>
-                    {% endif %}
+
                 </tr>
                 <tr>
                     <td><label for="password">Password</lable></td>
                     <td><input id="password" type="password" name="password" /></td>
-                    {% if error_password %}
-                    <td class="error">{{ error_password }}</td>
-                    {% endif %}
+
                 </tr>
                 
                 <tr>
                     <td><label for="verifypassword">Verify Password</label></td>
                     <td><input id="verifypassword" type="password" name="verifypassword" /></td>
-                    {% if error_verifypassword %}
-                    <td class="error">{{ error_verifypassword }}</td>
-                    {% endif %}
+
                 </tr>
                 
  
@@ -34,7 +35,6 @@
                 
                 <input type="submit" value="Submit" />
         
-
         </form>  
 
 {% endblock %}

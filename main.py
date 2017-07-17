@@ -3,6 +3,7 @@
 from flask import Flask, request, render_template, redirect, flash, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+import re
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -69,20 +70,30 @@ def signup():
         username = request.form['username']
         password = request.form['password']
         verifypassword = request.form['verifypassword']
+        
 
-        # TODO - validate user's data
+        # TODO - style validation error 
 
         existing_user = User.query.filter_by(username=username).first()
         if not existing_user:
+            if len(username) < 3 or len(username) > 20 or " " in username:
+                flash('This is not a valid username.','error_user')
+
+            if len(password) < 3 or len(password) > 20 or " " in password:
+                flash('Password is not valid.')
+            
+            if password != verifypassword:
+                flash('Password dont match')
+            
+            return render_template('signup.html', page_title="SIGN UP!")
+
+        
             new_user = User(username,password)
             db.session.add(new_user)
             db.session.commit()
             session['username'] = username
             return redirect('/newpost')
 
-        #TODO: flash or render each case's error message. invalid email, password, verifypassword.
-        else:
-            return "<h1>Duplicate user</h1>" 
 
     return render_template('signup.html', page_title="SIGN UP!")
 
@@ -94,11 +105,12 @@ def blog():
     posting_id = request.args.get('id')
     auther = request.args.get('username')
     print (auther)
-    if posting_id:
+    if posting_id: #grab posting id to display individual post
         current_page = Blog.query.get(posting_id)
         return render_template('singleuser.html',current_page=current_page)
 
-    if auther:
+    # TODO: how to get User.username from Blog.owner_id?
+    if auther: #get username to display all posts from this user
         user = User.query.filter_by(username=auther).first()
         
         current_owner_post = Blog.query.filter_by(owner_id=user.id).first()
@@ -132,9 +144,9 @@ def newpost():
             
             return render_template('/singleuser.html', current_page=new_posting)
 
-        else:
-           #flash ('Please POST!')
-            return '<h1> Please POST! </h1>'
+        else: #TODO: style flash message
+            flash ('Please POST!')
+            return render_template('/newpost.html',page_title="Add a blog Entry")
                     
     return render_template('/newpost.html',page_title="Add a blog Entry")
 
