@@ -8,12 +8,13 @@
         {% else %}
 
        
-              {% for new_posting in postings %}
+              {% for posting in postings %}
              
-             <li><a href="/blog?id={{new_posting.id}}"><h2>{{new_posting.title}}</h2></a>
-                 <p>{{new_posting.body}}</p>     
-                 <p>Blog class's owner_id ---{{new_posting.owner_id}}</p>   
-                 <p>{{current_owner.username}}</p>           
+             <li><a href="/blog?id={{posting.id}}"><h2>{{posting.title}}</h2></a>
+                 <p>{{posting.body}}</p>     
+                 <p> written by (owner_id)--- <a href="/blog?username={{posting.owner_id}}">{{posting.owner_id}}</a></p> 
+               
+        
              </li>
              <hr/>
               {% endfor %}
@@ -22,6 +23,20 @@
 
 
         {% endif %}
+
+        {% if auther %}
+            {% for post in current_owner_post %}
+             
+             <li><a href="/blog?username={{user.username}}"><h2>{{posting.title}}</h2></a>
+                 <p>{{posting.body}}</p>     
+        
+               
+        
+             </li>
+             <hr/>
+              {% endfor %}
+        {% endif %}
+              
 
 {% endblock %}
 

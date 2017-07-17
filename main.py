@@ -90,34 +90,26 @@ def signup():
 
 @app.route('/blog')
 def blog():
-     
+    
+    posting_id = request.args.get('id')
+    auther = request.args.get('username')
+    print (auther)
+    if posting_id:
+        current_page = Blog.query.get(posting_id)
+        return render_template('singleuser.html',current_page=current_page)
 
-    if not request.args:
+    if auther:
+        user = User.query.filter_by(username=auther).first()
         
-        title = request.args.get("title")
-        body = request.args.get("body")
-        
-        
-        owner = User.query.filter_by(username=username).first()
+        current_owner_post = Blog.query.filter_by(owner_id=user.id).first()
+        return render_template('blog.html',current_owner_post=current_owner_post, user=user)
 
-        new_posting = Blog(title,body,owner)
-        
-        current_owner = User.query.filter_by(id=new_posting.owner_id).first()
-        
+    else:
+ 
         postings = Blog.query.all()
 
+        return render_template('blog.html',page_title="All Postings",postings=postings)
 
-        # TODO: need to get username from User class that matches Blog's owner_id
-
-        return render_template('blog.html',page_title="All Postings",new_posting=new_posting, postings=postings, current_owner=current_owner)
-  
-    else:
-        posting_id = request.args.get('id') 
-        current_page = Blog.query.filter_by(id=posting_id).first()
-        return render_template('singleuser.html',current_page=current_page)
-    
-
-    return render_template('singleuser.html',current_page=current_page,new_posting=new_posting, postings=postings)
     
 
 
@@ -151,7 +143,7 @@ def newpost():
 
 @app.route('/')
 def index():
-    #getting all user and displays as ul
+
 
     all_user = User.query.all()
 
