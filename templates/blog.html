@@ -5,30 +5,29 @@
 
         {% if postings|length == 0 %}
         <p>No New postings yet</p>
+        
         {% else %}
 
-       
+            
               {% for posting in postings %}
              
              <li><a href="/blog?id={{posting.id}}"><h2>{{posting.title}}</h2></a>
                  <p>{{posting.body}}</p>     
-                 <p> written by (owner_id)--- <a href="/blog?username={{posting.owner_id}}">{{posting.owner_id}}</a></p> 
-               
+                 <p> written by {{posting.owner_id}}</a></p> 
         
              </li>
              <hr/>
               {% endfor %}
           
-              
-
-
         {% endif %}
 
-        {% if auther %}
-            {% for post in current_owner_post %}
+        
+        {% if author %}
+            {% for posting in current_owner_post %}
              
-             <li><a href="/blog?username={{user.username}}"><h2>{{posting.title}}</h2></a>
+             <li><a href="/blog?username={{posting.id}}"><h2>{{posting.title}}</h2></a>
                  <p>{{posting.body}}</p>     
+                 <p> written by {{posting.owner_id}}</a></p> 
         
                
         

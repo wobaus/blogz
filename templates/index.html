@@ -4,7 +4,7 @@
 
 <ul>
     {% for user in all_user %}
-        <li> {{user.username}} </li>
+        <li><a href="/blog?username={{user.username}}"> {{user.username}} </li> </a>
     {% endfor %}
 
 </ul>
