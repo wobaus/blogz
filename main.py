@@ -16,7 +16,7 @@ class Blog(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(120))
     body = db.Column(db.String(300))
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
              
 
 
@@ -30,11 +30,14 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(120), unique=True)
     password = db.Column(db.String(120))
-    blogs = db.relationship('Blog', backref='user')
+    blogs = db.relationship('Blog', backref='owner')
 
     def __init__(self, username, password):
         self.username = username
         self.password = password
+    
+    def __repr__(self):
+        return '<User %r>' % self.username
 
 
 @app.before_request
@@ -106,10 +109,12 @@ def blog():
     # TODO: display and create link for posting username
     if posting_id: #grab posting id to display individual post
         current_page = Blog.query.get(posting_id)
+        #current_user = User.query.filter_by(id=current_page.owner_id).first()
         #current_user = User.query.get(current_page.owner_id)
+        #page_author = (User.query.filter_by(id=current_page.owner_id)).username
         #get User class info of what current_page owner_id = User id
 
-        return render_template('singleuser.html',current_page=current_page)
+        return render_template('singleuser.html',current_page=current_page, author=author)
 
    
     # if author: #get username to display all posts from this user

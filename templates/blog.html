@@ -13,7 +13,7 @@
              
              <li><a href="/blog?id={{posting.id}}"><h2>{{posting.title}}</h2></a>
                  <p>{{posting.body}}</p>     
-                 <p> written by {{posting.owner_id}}</a></p> 
+                 <p> written by {{str(User.(posting.owner_id))}}</a></p> 
         
              </li>
              <hr/>
