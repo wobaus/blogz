@@ -116,12 +116,12 @@ def blog():
 
         return render_template('singleuser.html',current_page=current_page, author=author)
 
-   
-    # if author: #get username to display all posts from this user
-    #     user = User.query.filter_by(username=author).first() #get selected user 
+    if author: #get username to display all posts from this user
+         user = User.query.filter_by(username=author).first() #get selected user 
         
-    #     current_owner_post = Blog.query.filter_by(owner_id=user.id).all() #try to get all data that matches owner_id in Blog class and id in user
-    #     return render_template('blog.html', user=user)
+         current_owner_post = Blog.query.filter_by(owner_id=user.id).all() #try to get all data that matches owner_id in Blog class and id in user
+        
+         return render_template('userpage.html',current_owner_post=current_owner_post)
 
     else:
 
