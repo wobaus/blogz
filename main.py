@@ -109,19 +109,14 @@ def blog():
     # TODO: display and create link for posting username
     if posting_id: #grab posting id to display individual post
         current_page = Blog.query.get(posting_id)
-        #current_user = User.query.filter_by(id=current_page.owner_id).first()
-        #current_user = User.query.get(current_page.owner_id)
-        #page_author = (User.query.filter_by(id=current_page.owner_id)).username
-        #get User class info of what current_page owner_id = User id
-
+        
         return render_template('singleuser.html',current_page=current_page, author=author)
 
     if author: #get username to display all posts from this user
-         user = User.query.filter_by(username=author).first() #get selected user 
+        user = User.query.filter_by(username=author).first() #get selected user 
+        current_owner_post = Blog.query.filter_by(owner_id=user.id).all() #try to get all data that matches owner_id in Blog class and id in user
         
-         current_owner_post = Blog.query.filter_by(owner_id=user.id).all() #try to get all data that matches owner_id in Blog class and id in user
-        
-         return render_template('userpage.html',current_owner_post=current_owner_post)
+        return render_template('userpage.html',current_owner_post=current_owner_post)
 
     else:
 

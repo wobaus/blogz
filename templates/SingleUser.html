@@ -3,11 +3,9 @@
 
 {% block content %}
 
-<h1>{{current_page.title}}</h1>
+<h1><a href="/blog?id={{current_page.id}}">{{current_page.title}}</h1></a>
 <p>{{current_page.body}}</p>
-<p>{{current_page.owner_id}}</p>   
-<p>{{author}}</p> 
- 
+<p><a href="/blog?username={{current_page.owner.username}}">{{current_page.owner.username}}</p></a>   
 
 <hr/>
 

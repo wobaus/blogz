@@ -21,22 +21,6 @@
           
         {% endif %}
 
-        
-        {% if author %}
-            {% for posting in current_owner_post %}
-             
-             <li><a href="/blog?username={{posting.owner.username}}"><h2>{{posting.title}}</h2></a>
-                 <p>{{posting.body}}</p>     
-                 <p> written by {{posting.owner.username}}</a></p> 
-        
-               
-        
-             </li>
-             <hr/>
-              {% endfor %}
-        {% endif %}
-              
-
 {% endblock %}
 
 
