@@ -1,22 +1,29 @@
 <!DOCTYPE html>
 <html>
     <head>
+    <link type="text/css" rel="stylesheet" href="static/styles.css">
+       
         <title>Blogz</title>
+        <nav>
+            <ul>
+                <li><a class="active" href="/">Home</a></li>
+                <li><a href="/blog">All Posts</a></li>
+                <li><a href="/newpost">New post</a></li>
+            
+            
+                <li id="login_out"><a href="/login">Log In</a></li>
+                <li id="login_out"><a href="/logout">Log out</a></li>
+            </ul>
+        </nav>
+        
 
-        
-        <a href="/"> Home</a> 
-        <a href="/blog"> All Posts</a>
-        <a href="/newpost"> New post</a>
-        
-        <div align="right">
-            <a href="/login"> Log In</a>
-            <a href="/logout"> Log out</a>
-        </div>
+
 
         <div align="center">
         <h1> {{page_title}} </h1>
         </div>
     </head>
+   
     <body>
 
 
