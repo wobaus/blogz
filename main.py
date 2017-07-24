@@ -1,4 +1,3 @@
-#Check : test add & commit database
 
 from flask import Flask, request, render_template, redirect, flash, url_for, session
 from flask_sqlalchemy import SQLAlchemy
@@ -106,18 +105,18 @@ def blog():
     posting_id = request.args.get('id')
     author = request.args.get('username')
     
-    # TODO: display and create link for posting username
+    
     if posting_id: #grab posting id to display individual post
         current_page = Blog.query.get(posting_id)
         
         return render_template('singleuser.html',current_page=current_page, author=author)
 
     if author: #get username to display all posts from this user
-        user = User.query.filter_by(username=author).first() #get selected user 
-        current_owner_post = Blog.query.filter_by(owner_id=user.id).all() #try to get all data that matches owner_id in Blog class and id in user
+        user = User.query.filter_by(username=author).first()
+        current_owner_post = Blog.query.filter_by(owner_id=user.id).all() 
         
-        return render_template('userpage.html',current_owner_post=current_owner_post)
-
+        return render_template('userpage.html',current_owner_post=current_owner_post, author=author)
+        #TODO: user posting display page link for title doesnt work.
     else:
 
 

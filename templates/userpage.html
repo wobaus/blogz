@@ -2,14 +2,14 @@
 
 
 {% block content %}
-
-
+<h1 align="center">{{author}} 's posting </h1>
 {% for posting in current_owner_post %}
-             
-    <li><a href="/blog?username={{posting.owner_id}}"><h2>{{posting.title}}</h2></a>
+       
+    <li><a href="/blog?id={{posting.id}}"><h2>{{posting.title}}</h2></a>
     <p>{{posting.body}}</p>     
-    <p> written by <a href="/blog?username={{posting.owner.username}}">{{posting.owner.username}}</a></p> 
-        
+    <!--<p> written by <a href="/blog?username={{posting.owner.username}}">{{posting.owner.username}}</a></p> <!-->
+    <p> written by <a href="/blog?username={{author}}">{{posting.owner.username}}</a></p> 
+     
                
         
     </li>

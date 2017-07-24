@@ -1,6 +1,5 @@
 body {
     font-family: sans-serif;
-    width: 800px;
     margin: 0 auto;
     padding: 10px;
 }
@@ -34,4 +33,22 @@ nav #login_out {
 
 nav li a:hover {
     background-color: #111;
+}
+
+
+ul {
+    list-style-type: none;
+}
+
+div #newpost {
+    float: right;
+}
+
+div #login {
+    float: right
+}
+
+
+li {  
+    list-style-type: none;
 }
